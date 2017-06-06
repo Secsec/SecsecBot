@@ -1,5 +1,6 @@
 package secsec.commands;
 
+import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class HelpCommand implements Command{
@@ -9,7 +10,9 @@ public class HelpCommand implements Command{
 			+"\n since I'm getting refactored, sorry :o)";
 
 	public void action(String[] args, MessageReceivedEvent event) {
-		event.getChannel().sendMessage(help()).queue();
+		
+		if(event.getChannelType()==ChannelType.PRIVATE)
+			event.getChannel().sendMessage(help()).queue();
 	}
 
 	public boolean called(String[] args, MessageReceivedEvent event) {
