@@ -25,6 +25,7 @@ public class AudioCommand implements Command{
 	private static AudioManager audioManager;
 	private static Guild guild;
 	private static boolean isConnected;
+	private static boolean isInitialized;
 	//private static AudioPlayer audioPlayer;
 	
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -35,6 +36,7 @@ public class AudioCommand implements Command{
 				myChannel = guild.getVoiceChannelsByName(Const.DEFAULT_TALKING_CHANNEL, true).get(0);
 				audioManager = guild.getAudioManager();
 				audioManager.openAudioConnection(myChannel);
+				
 				isConnected = true;
 				} catch(Exception e) {
 					e.printStackTrace();
@@ -47,17 +49,19 @@ public class AudioCommand implements Command{
 			}
 			
 			if(args.length == 1 && args[0].startsWith("ah!") && isConnected==true){
-				try {
+					
 				AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
 				AudioSourceManagers.registerRemoteSources(playerManager);
 				AudioSourceManagers.registerLocalSource(playerManager);
+				
 				AudioPlayer player = playerManager.createPlayer();
 				final AudioPlayer player2 = player;
+				
+				guild.getAudioManager().setSendingHandler(new AudioPlayerSendHandler(player2));
 				//player.addListener(trackScheduler);
 			
 				playerManager.loadItemOrdered(player2,"https://www.youtube.com/watch?v=XE6YaLtctcI", new AudioLoadResultHandler() {
 					  public void trackLoaded(AudioTrack track) {
-						  System.out.println(track.getInfo().title);
 						  player2.playTrack(track);
 					  }
 
@@ -75,9 +79,6 @@ public class AudioCommand implements Command{
 
 					  }
 				});
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
 			}
 		}
 	}
