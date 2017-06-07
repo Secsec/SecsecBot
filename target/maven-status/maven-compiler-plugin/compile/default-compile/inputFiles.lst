@@ -1,4 +1,13 @@
-/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/listeners/ReadyListener.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/utils/Tools.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/audio/AudioPlayerSendHandler.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/commands/HelpCommand.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/commands/RollCommand.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/audio/Scheduler.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/commands/AudioCommand.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/utils/CommandParser.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/audio/TrackScheduler.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/commands/Command.java
 /Users/vincent/Documents/workspace/secsec/src/main/java/secsec/main/MainBot.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/commands/PingCommand.java
 /Users/vincent/Documents/workspace/secsec/src/main/java/secsec/utils/Const.java
-/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/listeners/TestListener.java
+/Users/vincent/Documents/workspace/secsec/src/main/java/secsec/listeners/GenericListener.java

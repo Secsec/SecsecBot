@@ -25,9 +25,7 @@ public class RollCommand implements Command{
 			
 			else if(event.getChannelType()==ChannelType.PRIVATE && args.length == 1 && args[0]=="help")
 				event.getChannel().sendMessage(HELP).queue();
-			
-			else
-				event.getChannel().sendMessage(HELP).queue();
+
 	}
 
 	public boolean called(String[] args, MessageReceivedEvent event) {
