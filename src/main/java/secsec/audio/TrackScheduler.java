@@ -19,7 +19,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	  @Override
 	  public void onTrackStart(AudioPlayer player, AudioTrack track) {
-	    // A track started playing
+		  player.setVolume(100);
+		  player.setPaused(false);
 	  }
 
 	  @Override
@@ -27,7 +28,9 @@ public class TrackScheduler extends AudioEventAdapter {
 	    if (endReason.mayStartNext) {
 	      // Start next track
 	    }
-
+	    player.setVolume(0);
+	    player.setPaused(true);
+	    
 	    // endReason == FINISHED: A track finished or died by an exception (mayStartNext = true).
 	    // endReason == LOAD_FAILED: Loading of a track failed (mayStartNext = true).
 	    // endReason == STOPPED: The player was stopped.
