@@ -30,15 +30,14 @@ public class AudioCommand implements Command{
 	private static final TrackScheduler scheduler = new TrackScheduler();
 	
 	private static boolean isConnected;
-	private static boolean isInitialized;
 	//private static AudioPlayer audioPlayer;
 	
 	public void action(String[] args, MessageReceivedEvent event) {
-		if(event.getChannelType() != ChannelType.PRIVATE && "botcentral".equals(event.getChannel().getName())) {
-			if(args.length == 1 && args[0].startsWith("connect")) {
+		if(event.getChannelType() != ChannelType.PRIVATE) {
+			if(args.length == 1 && "connect".equals(args[0]) && event.getChannel().getName().equals("general") && isConnected == false) {
 				try {
 				guild = event.getGuild();
-				myChannel = guild.getVoiceChannelsByName(Const.DEFAULT_TALKING_CHANNEL, true).get(0);
+				myChannel = guild.getVoiceChannelsByName(event.getMember().getVoiceState().getChannel().getName(), true).get(0);
 				audioManager = guild.getAudioManager();
 				audioManager.openAudioConnection(myChannel);
 				
@@ -59,21 +58,42 @@ public class AudioCommand implements Command{
 				audioManager.closeAudioConnection();
 				isConnected = false;
 			}
+			
+			if(player.isPaused()==true)
+				player.setPaused(false);
 			 //change for a switch here :)
 			if(args.length == 1 && "ah!".equals(args[0]) && isConnected==true){
 				playerManager.loadItem(Const.DENIS_BROGNIART, new SoundPlayer(player)); //maybe a static SoundPlayer ?
 			}
 			
 			if(args.length == 1 && "hendek".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.HENDEK, new SoundPlayer(player)); //maybe a static SoundPlayer ?
+				playerManager.loadItem(Const.HENDEK_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
 			}
 			
 			if(args.length == 1 && "tox".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.TOX, new SoundPlayer(player)); //maybe a static SoundPlayer ?
+				System.out.println(Const.TOX_W);
+				playerManager.loadItem(Const.TOX_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
 			}
 			
 			if(args.length == 1 && "fatigue".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.FATIGUE, new SoundPlayer(player)); //maybe a static SoundPlayer ?
+				playerManager.loadItem(Const.FATIGUE_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
+			}
+			
+			if(args.length == 1 && "manger".equals(args[0]) && isConnected==true){
+				playerManager.loadItem(Const.MANGER_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
+			}
+			
+			if(args.length == 1 && "barrick".equals(args[0]) && isConnected==true){
+				playerManager.loadItem(Const.BARRICK_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
+			}
+			
+			if(args.length == 2 && "yt".equals(args[0]) && isConnected==true){
+				playerManager.loadItem(args[1], new SoundPlayer(player)); //maybe a static SoundPlayer ?
+			}
+			
+			if(args.length == 1 && "stop".equals(args[0]) && isConnected==true){
+				//playerManager.loadItem(args[1], new SoundPlayer(player)); //maybe a static SoundPlayer ?
+				player.setPaused(true);
 			}
 		}
 	}

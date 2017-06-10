@@ -25,6 +25,8 @@ public class MainBot {
 	public static HashMap<String, Command> commands = new HashMap<String, Command>();
 	
 	public static CommandParser parser = new CommandParser();
+	
+	public static AudioCommand audio = new AudioCommand();
 
 	public static void main(String[] args) {
 		try {
@@ -32,6 +34,7 @@ public class MainBot {
 			commands.put("help", new HelpCommand());
 			commands.put("roll", new RollCommand());
 			commands.put("audio", new AudioCommand());
+
 			jda = new JDABuilder(AccountType.BOT).setToken(Const.BOT_TOKEN).addEventListener(new GenericListener()).buildBlocking();
 		} catch (LoginException e) {
 			e.printStackTrace();
@@ -46,6 +49,7 @@ public class MainBot {
 	
 	public static void handleCommand(CommandParser.CommandWrapper com) {
 		if(commands.containsKey(com.command)) {
+			System.out.println(com.args[0]);
 			boolean safe = commands.get(com.command).called(com.args, com.event);
 			if(safe) {
 			commands.get(com.command).action(com.args, com.event);

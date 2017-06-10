@@ -1,2 +1,3 @@
-secsec/utils/Const.class
-secsec/main/MainBot.class
+secsec\main\MainBot.class
+secsec\audio\SoundPlayer.class
+secsec\utils\Const.class

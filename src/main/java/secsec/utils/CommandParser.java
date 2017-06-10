@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class CommandParser {
+	
+	private static String parserCommand = " (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+	
 	public CommandWrapper parse(String raw, MessageReceivedEvent event) {
 		String toSplit = raw;
 		toSplit = toSplit.replaceFirst(Const.COMMAND_PREFIX, "");
-		String[] splitted = toSplit.split(" ");
+		String[] splitted = toSplit.split(parserCommand);
 		String command = splitted[0];
 		
 		String[] args = new String[splitted.length-1];
