@@ -19,6 +19,7 @@ import secsec.audio.Scheduler;
 import secsec.audio.SoundPlayer;
 import secsec.audio.TrackScheduler;
 import secsec.utils.Const;
+import secsec.utils.Tools;
 
 public class AudioCommand implements Command{
 	
@@ -28,6 +29,7 @@ public class AudioCommand implements Command{
 	private static final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
 	private static final AudioPlayer player = playerManager.createPlayer();
 	private static final TrackScheduler scheduler = new TrackScheduler();
+	private static final Tools tools = new Tools();
 	
 	private static boolean isConnected;
 	//private static AudioPlayer audioPlayer;
@@ -49,6 +51,8 @@ public class AudioCommand implements Command{
 				player.addListener(scheduler);
 				
 				isConnected = true;
+				
+				return;
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -61,39 +65,17 @@ public class AudioCommand implements Command{
 			
 			if(player.isPaused()==true)
 				player.setPaused(false);
-			 //change for a switch here :)
-			if(args.length == 1 && "ah!".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.DENIS_BROGNIART, new SoundPlayer(player)); //maybe a static SoundPlayer ?
-			}
 			
-			if(args.length == 1 && "hendek".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.HENDEK_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
-			}
-			
-			if(args.length == 1 && "tox".equals(args[0]) && isConnected==true){
-				System.out.println(Const.TOX_W);
-				playerManager.loadItem(Const.TOX_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
-			}
-			
-			if(args.length == 1 && "fatigue".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.FATIGUE_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
-			}
-			
-			if(args.length == 1 && "manger".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.MANGER_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
-			}
-			
-			if(args.length == 1 && "barrick".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(Const.BARRICK_W, new SoundPlayer(player)); //maybe a static SoundPlayer ?
-			}
-			
-			if(args.length == 2 && "yt".equals(args[0]) && isConnected==true){
-				playerManager.loadItem(args[1], new SoundPlayer(player)); //maybe a static SoundPlayer ?
-			}
-			
-			if(args.length == 1 && "stop".equals(args[0]) && isConnected==true){
-				//playerManager.loadItem(args[1], new SoundPlayer(player)); //maybe a static SoundPlayer ?
+			if(args.length == 1 && "stop".equals(args[0]) && isConnected==true && player.isPaused()==false){
 				player.setPaused(true);
+			}
+			
+			String sound;
+			
+			if(args.length == 1) {
+				sound = tools.getFromAvailableFiles(args[0]);
+				if(!sound.equals(null))
+				playerManager.loadItem(getClass().getResource(sound).getPath(), new SoundPlayer(player));
 			}
 		}
 	}

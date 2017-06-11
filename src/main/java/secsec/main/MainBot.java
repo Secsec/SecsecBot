@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import secsec.utils.CommandParser;
 import secsec.utils.Const;
+import secsec.utils.Tools;
 import secsec.commands.AudioCommand;
 import secsec.commands.Command;
 import secsec.commands.HelpCommand;
@@ -28,6 +29,8 @@ public class MainBot {
 	
 	public static AudioCommand audio = new AudioCommand();
 
+	public static Tools tools = new Tools();
+	
 	public static void main(String[] args) {
 		try {
 			commands.put("ping", new PingCommand());
@@ -49,7 +52,6 @@ public class MainBot {
 	
 	public static void handleCommand(CommandParser.CommandWrapper com) {
 		if(commands.containsKey(com.command)) {
-			System.out.println(com.args[0]);
 			boolean safe = commands.get(com.command).called(com.args, com.event);
 			if(safe) {
 			commands.get(com.command).action(com.args, com.event);
