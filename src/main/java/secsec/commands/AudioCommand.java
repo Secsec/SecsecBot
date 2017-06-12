@@ -1,6 +1,5 @@
 package secsec.commands;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -18,7 +17,6 @@ import secsec.audio.AudioPlayerSendHandler;
 import secsec.audio.Scheduler;
 import secsec.audio.SoundPlayer;
 import secsec.audio.TrackScheduler;
-import secsec.utils.Const;
 import secsec.utils.Tools;
 
 public class AudioCommand implements Command{
@@ -32,50 +30,44 @@ public class AudioCommand implements Command{
 	private static final Tools tools = new Tools();
 	
 	private static boolean isConnected;
-	//private static AudioPlayer audioPlayer;
 	
 	public void action(String[] args, MessageReceivedEvent event) {
 		if(event.getChannelType() != ChannelType.PRIVATE) {
-			if(args.length == 1 && "connect".equals(args[0]) && event.getChannel().getName().equals("general") && isConnected == false) {
-				try {
-				guild = event.getGuild();
-				myChannel = guild.getVoiceChannelsByName(event.getMember().getVoiceState().getChannel().getName(), true).get(0);
-				audioManager = guild.getAudioManager();
-				audioManager.openAudioConnection(myChannel);
-				
-				AudioSourceManagers.registerRemoteSources(playerManager);
-				AudioSourceManagers.registerLocalSource(playerManager);
-				
-				guild.getAudioManager().setSendingHandler(new AudioPlayerSendHandler(player));
-				
-				player.addListener(scheduler);
-				
-				isConnected = true;
-				
-				return;
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
+
+			String sound;
 			
-			if(args.length == 1 && args[0].startsWith("disconnect") && isConnected==true){
-				audioManager.closeAudioConnection();
-				isConnected = false;
+			if(args.length == 1 && "connect".equals(args[0]) && isConnected == false){
+				connect(event);
+				return;
 			}
 			
 			if(player.isPaused()==true)
 				player.setPaused(false);
-			
-			if(args.length == 1 && "stop".equals(args[0]) && isConnected==true && player.isPaused()==false){
-				player.setPaused(true);
-			}
-			
-			String sound;
-			
-			if(args.length == 1) {
-				sound = tools.getFromAvailableFiles(args[0]);
-				if(!sound.equals(null))
-				playerManager.loadItem(getClass().getResource(sound).getPath(), new SoundPlayer(player));
+
+			if(args.length == 1 && isConnected == true) {
+				switch(args[0]) {
+					case "disconnect":
+						audioManager.closeAudioConnection();
+						isConnected = false;
+						event.getChannel().sendMessage("Bye!").queue();
+						break;
+					case "help":
+						event.getChannel().sendMessage(help()).queue();
+						break;
+					case "stop":
+						if(player.isPaused()==false)
+							player.setPaused(true);
+						break;
+					default:
+						sound = tools.getFromAvailableFiles(args[0]);
+						if(sound == null) {
+							event.getChannel().sendMessage("Sorry, I don't know this sound :(, tip \"!:audio help\" if you need informations.").queue();
+							return;
+						}	
+						else if(!sound.equals(null))
+							playerManager.loadItem(getClass().getResource(sound).getPath(), new SoundPlayer(player));
+						break;
+				}
 			}
 		}
 	}
@@ -85,10 +77,35 @@ public class AudioCommand implements Command{
 	}
 
 	public String help() {
-		return null;
+		return "Commands : !:audio connect/disconnect : enable/disable the bot in your channel. \n\n"+
+	"!:audio stop : stops the currently played sound.\n\n"+
+	"!:audio <soundName> plays the requested sound. Currently available sounds are :"+tools.getAllSoundsName();
 	}
 
 	public void executed(boolean success, String[] args, MessageReceivedEvent event) {
 		return;
+	}
+	
+	public void connect(MessageReceivedEvent event){
+		try {
+			guild = event.getGuild();
+			myChannel = guild.getVoiceChannelsByName(event.getMember().getVoiceState().getChannel().getName(), true).get(0);
+			audioManager = guild.getAudioManager();
+			audioManager.openAudioConnection(myChannel);
+			
+			AudioSourceManagers.registerRemoteSources(playerManager);
+			AudioSourceManagers.registerLocalSource(playerManager);
+			
+			guild.getAudioManager().setSendingHandler(new AudioPlayerSendHandler(player));
+			
+			player.addListener(scheduler);
+			
+			isConnected = true;
+			event.getChannel().sendMessage("Connected!").queue();
+			
+			return;
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 	}
 }

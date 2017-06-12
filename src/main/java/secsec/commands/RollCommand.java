@@ -9,15 +9,15 @@ import secsec.utils.Tools;
 public class RollCommand implements Command{
 	
 	public static final String HELP ="To use the command '!:roll', either you use it without any argument, which will give you a random number between 0 and 100"
-			+", with one argument, 0 and your number.";
+			+",or with one argument,and you'll got a number between 0 and your number.";
 	private static Random random = new Random();
 
 	
 	public void action(String[] args, MessageReceivedEvent event) {
-			if(event.getChannelType()==ChannelType.PRIVATE && args.length == 0)
+			if(args.length == 0)
 				event.getChannel().sendMessage(String.valueOf(random.nextInt(101))).queue();
 			
-			else if(event.getChannelType()==ChannelType.PRIVATE && args.length == 1 && Tools.isInteger(args[0]) && Integer.parseInt(args[0]) > 0) 
+			else if(args.length == 1 && Tools.isInteger(args[0]) && Integer.parseInt(args[0]) > 0) 
 					event.getChannel().sendMessage(String.valueOf(random.nextInt(Integer.parseInt(args[0])))).queue();
 
 			/*else if(event.getChannelType()==ChannelType.PRIVATE && args.length == 2 && Tools.isInteger(args[0]) && Tools.isInteger(args[1]) && (Integer.parseInt(args[0]) <= Integer.parseInt(args[1])))

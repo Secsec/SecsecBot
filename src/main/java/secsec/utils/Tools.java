@@ -58,4 +58,25 @@ public class Tools {
 		}
 		return null;
 	}
+	
+	public String getAllSoundsName() {
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		Properties props = new Properties();
+		StringBuilder builder = new StringBuilder();
+		try(InputStream resourceStream = loader.getResourceAsStream(CONFIG_NAME)) {
+		    try {
+				props.load(resourceStream);
+				for(Entry<Object, Object> entry : props.entrySet()) {
+		            builder.append(entry.getKey()+", ");
+		        }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return builder.toString();
+	}
 }
