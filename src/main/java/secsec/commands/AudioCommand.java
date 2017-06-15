@@ -43,6 +43,20 @@ public class AudioCommand implements Command{
 			
 			if(player.isPaused()==true)
 				player.setPaused(false);
+			
+			if(args.length == 2 && isConnected == true) {
+				switch(args[0]) {
+					case "yt":
+						if(!args[1].equals(null)) {
+							playerManager.loadItem(args[1], new SoundPlayer(player));
+						}
+						break;
+					case "volume" :
+						if(Integer.parseInt(args[1]) >= 0 && Integer.parseInt(args[1]) <= 100)
+							player.setVolume(Integer.parseInt(args[1]));
+						break;
+				}
+			}
 
 			if(args.length == 1 && isConnected == true) {
 				switch(args[0]) {
