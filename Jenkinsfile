@@ -1,10 +1,14 @@
 pipeline {
   agent any
+    tools {
+    maven 'maven'
+  }
+  environment {
+    maven = ''
+  }
   stages {
     stage('Build') {
       steps {
-        def mvnHome
-        mvnHome = tool 'MAVEN3'
         git(url: 'https://github.com/Secsec/SecsecBot', branch: 'master')
         sh 'mvn package'
         stash 'secsec-0.0.1-SNAPSHOT.jar'
@@ -17,5 +21,4 @@ pipeline {
       }
     }
   }
-
 }
