@@ -15,4 +15,7 @@ pipeline {
       }
     }
   }
+  environment {
+    maven = ''
+  }
 }
