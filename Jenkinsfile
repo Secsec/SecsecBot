@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        git(url: 'https://github.com/Secsec/SecsecBot.git', branch: 'master')
+        git(url: 'https://github.com/Secsec/SecsecBot', branch: 'master')
         sh 'mvn package'
         stash 'secsec-0.0.1-SNAPSHOT.jar'
       }
