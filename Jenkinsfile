@@ -1,11 +1,5 @@
 pipeline {
   agent any
-    tools {
-    maven 'maven.3.5.3'
-  }
-  environment {
-    maven = ''
-  }
   stages {
     stage('Build') {
       steps {
@@ -20,5 +14,11 @@ pipeline {
         sh 'oc start-build cart --from-file=target/secsec-0.0.1-SNAPSHOT.jar --follow'
       }
     }
+  }
+  tools {
+    maven 'maven.3.5.3'
+  }
+  environment {
+    maven = ''
   }
 }
