@@ -3,7 +3,7 @@ package secsec.utils;
 import java.io.File;
 
 public class Const {
-	public static final String BOT_TOKEN = "MjY4ODQyMjgyNjIxNDY4Njcy.DBfzbw.uiauP8eolx-MYd7eMzCF0_dN4-M";
+	public static final String BOT_TOKEN = "";
 	public static final String COMMAND_PREFIX = "!:";
 	public static final String DEFAULT_TALKING_CHANNEL = "Test";
 	public static final String DENIS_BROGNIART = "https://www.youtube.com/watch?v=XE6YaLtctcI";
